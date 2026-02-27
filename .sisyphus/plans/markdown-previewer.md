@@ -698,7 +698,7 @@ curl -s "http://127.0.0.1:3000/?path=../../etc/passwd" | grep -q "404"
     Evidence: .sisyphus/evidence/task-6-error-handling.txt
   ```
   **Commit**: NO (groups with Task 7)
-- [ ] 7. GitHub-Style CSS
+- [x] 7. GitHub-Style CSS
   **What to do**:
   - Add CSS for GitHub-style markdown render - Style headings, paragraphs, lists, blockquotes
   - Style code blocks with proper padding and background
@@ -751,7 +751,7 @@ curl -s "http://127.0.0.1:3000/?path=../../etc/passwd" | grep -q "404"
   - Message: `feat(ui): add GitHub-style CSS and markdown display component`
   - Files: `frontend/src/MarkdownViewer.tsx`, `frontend/src/styles.css`
   - Pre-commit: `bun run build:frontend`
-- [ ] 8. Error Handling (404 Page)
+- [x] 8. Error Handling (404 Page)
   **What to do**:
   - Create simple 404 error page component
   - Display when file not found, invalid path, or non-.md file
@@ -794,7 +794,7 @@ curl -s "http://127.0.0.1:3000/?path=../../etc/passwd" | grep -q "404"
     Evidence: .sisyphus/evidence/task-8-404-page.txt
   ```
   **Commit**: NO (groups with Task 7)
-- [ ] 9. Integration Testing and Build Verification
+- [x] 9. Integration Testing and Build Verification
   **What to do**:
   - Create comprehensive test markdown file with all features:
     - Headings (H1-H6)

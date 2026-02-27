@@ -9,7 +9,7 @@
     "backend"
   ],
   "scripts": {
-    "build": "bun run build --recursive",
+    "build": "cd frontend && bun install && bun run build",
     "build:frontend": "cd frontend && bun install && bun run build",
     "start": "bun run start --recursive",
     "dev": "bun run dev --recursive"

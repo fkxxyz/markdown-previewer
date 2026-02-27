@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import mermaid from 'mermaid'
+import './styles.css'
 
 interface ApiResponse {
   path: string
@@ -45,7 +46,7 @@ export function MarkdownViewer() {
         const path = params.get('path')
 
         if (!path) {
-          setError('No file path provided. Use ?path=... in URL')
+          setError('No file path provided. Example: ?path=/path/to/file.md')
           setLoading(false)
           return
         }
@@ -127,8 +128,8 @@ export function MarkdownViewer() {
       </div>
 
       {/* Rendered markdown content */}
-      <div 
-        style={{ padding: '20px' }}
+      <div
+        className="markdown-body"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
     </div>
