@@ -173,15 +173,15 @@ Max Concurrent: 3 (all waves)
 
 > 3 review agents run in PARALLEL. ALL must APPROVE. Rejection → fix → re-run.
 
-- [ ] F1. **Plan Compliance Audit** — `oracle`
+- [x] F1. **Plan Compliance Audit** — `oracle`
   Read the plan end-to-end. For each "Must Have": verify implementation exists (read file, check code). For each "Must NOT Have": search codebase for forbidden patterns — reject with file:line if found. Compare deliverables against plan.
   Output: `Must Have [N/N] | Must NOT Have [N/N] | Tasks [N/N] | VERDICT: APPROVE/REJECT`
 
-- [ ] F2. **Code Quality Review** — `unspecified-high`
+- [x] F2. **Code Quality Review** — `unspecified-high`
   Run `bun run build`. Review all files for: `as any`/`@ts-ignore`, empty catches, console.log in prod, commented-out code, unused imports. Check AI slop: excessive comments, over-abstraction, generic names (data/result/item/temp).
   Output: `Build [PASS/FAIL] | Files [N clean/N issues] | VERDICT`
 
-- [ ] F3. **Security Review** — `deep`
+- [x] F3. **Security Review** — `deep`
   Review backend file reading code for: path traversal prevention (path.resolve + path.normalize), symlink resolution (fs.realpath), extension validation on resolved path, file size limits. Test with malicious paths: `../../etc/passwd`, `../../../home/user/.ssh/id_rsa`, symlink to non-.md file.
   Output: `Security Checks [N/N pass] | Vulnerabilities [NONE/N found] | VERDICT`
 
