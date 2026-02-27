@@ -1,10 +1,6 @@
 import React from 'react'
+import { MarkdownViewer } from './MarkdownViewer'
 
 export function App() {
-  return (
-    <div style={{ padding: '20px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      <h1>Markdown Previewer</h1>
-      <p>Ready for markdown rendering</p>
-    </div>
-  )
+  return <MarkdownViewer />
 }

@@ -629,7 +629,7 @@ curl -s "http://127.0.0.1:3000/?path=../../etc/passwd" | grep -q "404"
   - Message: `feat(core): implement secure file reading and markdown rendering`
   - Files: `backend/server.ts`, `backend/renderer.ts` (or similar)
   - Pre-commit: `bun run build`
-- [ ] 6. Frontend Markdown Display Component
+- [x] 6. Frontend Markdown Display Component
   **What to do**:
   - Create React component `MarkdownViewer.tsx`
   - Parse URL query parameter `?path=...` to get file path

@@ -177,3 +177,78 @@
 - Both produce full KaTeX HTML with mathml and visual rendering
 - Mixed inline and block math work correctly in same document
 - Multiple block math equations can appear in sequence
+
+## Task 6: React MarkdownViewer Component
+
+### React Component Structure
+- Use useState for loading, error, filePath, and htmlContent state
+- Use useEffect for one-time initialization (CSS loading, Mermaid init)
+- Use separate useEffect for data fetching to avoid re-running on every render
+- Empty dependency array [] ensures effect runs only once on mount
+
+### URL Query Parameter Parsing
+- Use URLSearchParams(window.location.search) to parse query string
+- Use params.get('path') to retrieve specific parameter value
+- Check for null/undefined before using parameter value
+- Use encodeURIComponent() when passing path to backend API
+
+### Fetch API with Headers
+- Frontend fetch() automatically sends Accept: */* header
+- Backend checks Accept header to distinguish browser vs API requests
+- Browser navigation sends Accept: text/html (serve frontend HTML)
+- Fetch API sends Accept: */* or application/json (return JSON)
+- This allows same URL to serve both frontend and API responses
+
+### Loading and Error State Management
+- Start with loading=true, error=null, content=''
+- Set loading=false after fetch completes (success or error)
+- Display different UI based on state: loading → spinner, error → error box, success → content
+- Use early returns for loading/error states to simplify render logic
+
+### External CSS Loading
+- Create <link> elements dynamically with document.createElement('link')
+- Set rel='stylesheet' and href to CDN URL
+- Append to document.head with appendChild()
+- Clean up in useEffect return function with removeChild()
+- KaTeX CSS: https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css
+- highlight.js CSS: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css
+
+### Mermaid Integration
+- Import mermaid from 'mermaid' package (installed via bun add)
+- Initialize with mermaid.initialize({ startOnLoad: true })
+- Call mermaid.contentLoaded() after HTML content is rendered
+- Use setTimeout() to ensure DOM is updated before calling contentLoaded()
+- Backend wraps mermaid code in <div class="mermaid">...</div>
+
+### dangerouslySetInnerHTML Usage
+- Use dangerouslySetInnerHTML={{ __html: htmlContent }} to render HTML
+- Safe in this case because backend blocks HTML tags (html: false in markdown-it)
+- Backend escapes all HTML, preventing XSS attacks
+- Only markdown-generated HTML is rendered, not user-provided HTML
+
+### Backend Routing Enhancement
+- Check req.headers.get('accept') to determine request type
+- If Accept includes 'text/html' and not 'application/json', serve frontend HTML
+- If Accept includes 'application/json' or doesn't include 'text/html', return JSON
+- This allows browser navigation to /?path=... to load frontend
+- Frontend then makes fetch request to same URL to get JSON data
+
+### File Path Display
+- Display resolved file path at top of page
+- Use monospace font (Monaco, Consolas, monospace) for path
+- Gray background (#f5f5f5) with border-bottom for visual separation
+- Shows user exactly which file was loaded (after symlink resolution)
+
+### Component Testing
+- Test with comprehensive markdown file (math, code, diagrams, regular markdown)
+- Verify API returns rendered HTML (not raw markdown)
+- Verify KaTeX, highlight.js, and Mermaid classes present in HTML
+- Test error handling (404, missing path, network errors)
+- Test loading state (shows before content loads)
+
+### Build Integration
+- Vite bundles React component with mermaid library
+- Bundle size: ~142 kB (includes React, ReactDOM, mermaid)
+- Build time: ~655ms with 30 modules transformed
+- Output: dist/index.html and dist/assets/index-*.js
+- Backend serves frontend from dist/ directory

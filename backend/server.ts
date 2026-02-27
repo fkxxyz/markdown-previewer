@@ -1,5 +1,6 @@
 import { join, resolve, normalize, extname } from 'path';
 import { existsSync, readFileSync, statSync, realpathSync } from 'fs';
+import { renderMarkdown } from './renderer';
 
 // Parse CLI arguments
 function parseArgs(): { host: string; port: number } {
@@ -94,6 +95,17 @@ const server = Bun.serve({
 
     // File reading endpoint with security validation
     if (url.searchParams.has('path')) {
+      // Check if this is an API request (fetch) vs browser navigation
+      const acceptHeader = req.headers.get('accept') || '';
+      const isApiRequest = acceptHeader.includes('application/json') || !acceptHeader.includes('text/html');
+      
+      // If browser navigation, serve frontend HTML
+      if (!isApiRequest) {
+        const response = serveStatic(join(frontendDistPath, 'index.html'));
+        if (response) return response;
+      }
+      
+      // API request - return JSON
       const requestedPath = url.searchParams.get('path');
       if (!requestedPath) {
         return new Response(JSON.stringify({ error: 'Invalid path parameter' }), {
@@ -151,8 +163,11 @@ const server = Bun.serve({
         // Read file content
         const content = readFileSync(realPath, 'utf-8');
 
-        // Return JSON with resolved path and content
-        return new Response(JSON.stringify({ path: realPath, content }), {
+        // Render markdown to HTML
+        const htmlContent = renderMarkdown(content);
+
+        // Return JSON with resolved path and rendered HTML
+        return new Response(JSON.stringify({ path: realPath, content: htmlContent }), {
           status: 200,
           headers: {
             'Content-Type': 'application/json',

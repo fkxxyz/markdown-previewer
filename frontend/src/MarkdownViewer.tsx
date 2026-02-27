@@ -1,0 +1,136 @@
+import React, { useEffect, useState } from 'react'
+import mermaid from 'mermaid'
+
+interface ApiResponse {
+  path: string
+  content: string
+}
+
+interface ApiError {
+  error: string
+}
+
+export function MarkdownViewer() {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [filePath, setFilePath] = useState<string | null>(null)
+  const [htmlContent, setHtmlContent] = useState<string>('')
+
+  useEffect(() => {
+    // Load external CSS for KaTeX and highlight.js
+    const katexLink = document.createElement('link')
+    katexLink.rel = 'stylesheet'
+    katexLink.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css'
+    document.head.appendChild(katexLink)
+
+    const highlightLink = document.createElement('link')
+    highlightLink.rel = 'stylesheet'
+    highlightLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'
+    document.head.appendChild(highlightLink)
+
+    // Initialize Mermaid
+    mermaid.initialize({ startOnLoad: true })
+
+    return () => {
+      document.head.removeChild(katexLink)
+      document.head.removeChild(highlightLink)
+    }
+  }, [])
+
+  useEffect(() => {
+    const fetchMarkdown = async () => {
+      try {
+        // Parse URL query parameter
+        const params = new URLSearchParams(window.location.search)
+        const path = params.get('path')
+
+        if (!path) {
+          setError('No file path provided. Use ?path=... in URL')
+          setLoading(false)
+          return
+        }
+
+        // Fetch from backend
+        const response = await fetch(`/?path=${encodeURIComponent(path)}`)
+        
+        if (!response.ok) {
+          const errorData: ApiError = await response.json()
+          setError(errorData.error || `HTTP ${response.status}: ${response.statusText}`)
+          setLoading(false)
+          return
+        }
+
+        const data: ApiResponse = await response.json()
+        setFilePath(data.path)
+        setHtmlContent(data.content)
+        setLoading(false)
+
+        // Re-run Mermaid after content is loaded
+        setTimeout(() => {
+          mermaid.contentLoaded()
+        }, 100)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Network error occurred')
+        setLoading(false)
+      }
+    }
+
+    fetchMarkdown()
+  }, [])
+
+  if (loading) {
+    return (
+      <div style={{ 
+        padding: '40px', 
+        textAlign: 'center',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        color: '#666'
+      }}>
+        Loading...
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div style={{ 
+        padding: '40px',
+        fontFamily: 'system-ui, -apple-system, sans-serif'
+      }}>
+        <div style={{
+          backgroundColor: '#fee',
+          border: '1px solid #fcc',
+          borderRadius: '4px',
+          padding: '16px',
+          color: '#c33'
+        }}>
+          <strong>Error:</strong> {error}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ 
+      fontFamily: 'system-ui, -apple-system, sans-serif'
+    }}>
+      {/* File path display */}
+      <div style={{
+        backgroundColor: '#f5f5f5',
+        padding: '12px 20px',
+        fontFamily: 'Monaco, Consolas, monospace',
+        fontSize: '14px',
+        color: '#555',
+        borderBottom: '1px solid #ddd'
+      }}>
+        {filePath}
+      </div>
+
+      {/* Rendered markdown content */}
+      <div 
+        style={{ padding: '20px' }}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
+    </div>
+  )
+}
