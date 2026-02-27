@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import mermaid from 'mermaid'
+import { instance } from '@viz-js/viz'
 import './styles.css'
 
 interface ApiResponse {
@@ -67,8 +68,25 @@ export function MarkdownViewer() {
         setLoading(false)
 
         // Re-run Mermaid after content is loaded
-        setTimeout(() => {
+        setTimeout(async () => {
           mermaid.contentLoaded()
+          
+          // Render Graphviz diagrams
+          const graphvizElements = document.querySelectorAll('.graphviz')
+          const viz = await instance()
+          
+          graphvizElements.forEach((element) => {
+            const dotCode = element.getAttribute('data-dot')
+            if (dotCode) {
+              try {
+                const svg = viz.renderSVGElement(dotCode)
+                element.innerHTML = ''
+                element.appendChild(svg)
+              } catch (err) {
+                element.innerHTML = `<div style="color: red; padding: 10px; border: 1px solid red;">Graphviz Error: ${err instanceof Error ? err.message : 'Unknown error'}</div>`
+              }
+            }
+          })
         }, 100)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Network error occurred')
