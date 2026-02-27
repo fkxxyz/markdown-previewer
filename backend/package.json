@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "start": "bun backend/server.ts",
-    "dev": "bun --watch backend/server.ts"
+    "start": "bun server.ts",
+    "dev": "bun --watch server.ts"
   },
   "dependencies": {
     "@aduh95/viz.js": "^3.7.0",

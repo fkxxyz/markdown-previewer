@@ -11,8 +11,8 @@
   "scripts": {
     "build": "cd frontend && bun install && bun run build",
     "build:frontend": "cd frontend && bun install && bun run build",
-    "start": "bun run start --recursive",
-    "dev": "bun run dev --recursive"
+    "start": "bun run --filter '*' start",
+    "dev": "bun run --filter '*' dev"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

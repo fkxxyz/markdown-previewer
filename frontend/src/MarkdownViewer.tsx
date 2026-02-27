@@ -53,7 +53,12 @@ export function MarkdownViewer() {
         }
 
         // Fetch from backend
-        const response = await fetch(`/?path=${encodeURIComponent(path)}`)
+        const backendUrl = import.meta.env.DEV ? 'http://127.0.0.1:3000' : '';
+        const response = await fetch(`${backendUrl}/?path=${encodeURIComponent(path)}`, {
+          headers: {
+            'Accept': 'application/json',
+          },
+        })
         
         if (!response.ok) {
           const errorData: ApiError = await response.json()
