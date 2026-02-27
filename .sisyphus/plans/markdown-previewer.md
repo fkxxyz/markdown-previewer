@@ -531,7 +531,7 @@ curl -s "http://127.0.0.1:3000/?path=../../etc/passwd" | grep -q "404"
     Evidence: .sisyphus/evidence/task-4-symlink-check.txt
   ```
   **Commit**: NO (groups with Task 5)
-- [ ] 5. markdown-it Configuration with All Plugins
+- [x] 5. markdown-it Configuration with All Plugins
   **What to do**:
   - Install dependencies: `markdown-it`, `markdown-it-katex`, `highlight.js`, `mermaid`, `viz.js` or `@aduh95/viz.js`
   - Install GFM plugins: `markdown-it-table`, `markdown-it-footnote`, `markdown-it-task-lists`, `markdown-it-strikethrough` (or use `markdown-it-github-flavored`)

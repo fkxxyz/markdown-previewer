@@ -106,3 +106,74 @@
 - Use url.searchParams.has() to check for query parameter existence
 - Use url.searchParams.get() to retrieve parameter value
 - Validate parameter is not null/empty before processing
+
+## Task 5: Markdown Rendering Engine Configuration
+
+### markdown-it Core Configuration
+- html: false is MANDATORY for security - prevents XSS attacks
+- linkify: true automatically converts URLs to links
+- typographer: true enables smart quotes and other typographic replacements
+- highlight function integrates highlight.js for syntax highlighting
+
+### Plugin Installation
+- markdown-it-katex: Math rendering with KaTeX (inline $ and block $$)
+- markdown-it-footnote: Footnote support with [^1] syntax
+- markdown-it-task-lists: GitHub-style task lists with - [ ] and - [x]
+- markdown-it-anchor: Automatic heading anchors for navigation
+- highlight.js: Code syntax highlighting for 190+ languages
+- mermaid: Diagram rendering (client-side, wrapped in div)
+- @aduh95/viz.js: Graphviz DOT diagram support (client-side, wrapped in div)
+- katex: Math typesetting library (peer dependency for markdown-it-katex)
+
+### GFM (GitHub Flavored Markdown) Features
+- Tables: Built-in to markdown-it, enabled by default
+- Strikethrough: Built-in, enabled with md.enable(['strikethrough'])
+- Task lists: Requires markdown-it-task-lists plugin
+- Footnotes: Requires markdown-it-footnote plugin
+
+### Custom Fence Renderer
+- Override md.renderer.rules.fence to handle special code blocks
+- Detect language from token.info.trim()
+- Mermaid blocks: Wrap in <div class="mermaid"> for client-side rendering
+- Graphviz blocks (dot/graphviz): Wrap in <div class="graphviz" data-dot="...">
+- Use md.utils.escapeHtml() to prevent XSS in diagram content
+- Fall back to default fence renderer for normal code blocks
+
+### Security Validation
+- HTML tags are escaped: <script> becomes &lt;script&gt;
+- Prevents XSS attacks through markdown content
+- All user content is sanitized before rendering
+- Diagram content is escaped and stored in data attributes
+
+### Error Handling
+- Wrap md.render() in try-catch to prevent crashes
+- Return error div with message on rendering failure
+- Log errors to console for debugging
+- Graceful degradation ensures server stays responsive
+
+### Testing Results
+- Math: Both inline ($) and block ($$) render correctly with KaTeX HTML
+- Code: Syntax highlighting works with hljs classes
+- Mermaid: Wrapped in div with escaped content for client-side rendering
+- Graphviz: Wrapped in div with data-dot attribute for client-side rendering
+- Tables: Proper HTML table structure with thead/tbody
+- Task lists: Checkboxes with checked/disabled attributes
+- Footnotes: Superscript references with footnotes section at bottom
+- Strikethrough: Renders as <s> tag
+- HTML blocking: All HTML tags escaped, XSS prevented
+
+### Block Math Syntax Requirements (CRITICAL)
+- Block math MUST have $$ delimiters on separate lines (not inline with text)
+- VALID: `$$\n\int_0^\infty\n$$` (separate lines)
+- INVALID: `Block: $$\int_0^\infty$$` (inline with text)
+- Inline math uses single $ delimiters: `$E = mc^2$`
+- Block math uses double $$ delimiters on their own lines
+- markdown-it-katex correctly rejects invalid inline block math syntax
+- When $$ appears inline with text, it renders as literal text (expected behavior)
+
+### Math Rendering Verification
+- Inline math: Renders with `<span class="katex">` wrapper
+- Block math: Renders with `<span class="katex-display">` wrapper
+- Both produce full KaTeX HTML with mathml and visual rendering
+- Mixed inline and block math work correctly in same document
+- Multiple block math equations can appear in sequence

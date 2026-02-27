@@ -5,5 +5,16 @@
   "scripts": {
     "start": "bun backend/server.ts",
     "dev": "bun --watch backend/server.ts"
+  },
+  "dependencies": {
+    "@aduh95/viz.js": "^3.7.0",
+    "highlight.js": "^11.11.1",
+    "katex": "^0.16.33",
+    "markdown-it": "^14.1.1",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-katex": "^2.0.3",
+    "markdown-it-task-lists": "^2.1.1",
+    "mermaid": "^11.12.3"
   }
 }

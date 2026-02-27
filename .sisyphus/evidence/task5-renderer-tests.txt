@@ -1,0 +1,75 @@
+=== Testing Math Rendering ===
+<p>Inline math: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>E</mi><mo>=</mo><mi>m</mi><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">E = mc^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="mrel">=</span><span class="mord mathit">m</span><span class="mord"><span class="mord mathit">c</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathrm">2</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></p>
+<p>Block math:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mo>∫</mo><mn>0</mn><mi mathvariant="normal">∞</mi></msubsup><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mi>d</mi><mi>x</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\int_0^\infty e^{-x} dx = 1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.36em;"></span><span class="strut bottom" style="height:2.27225em;vertical-align:-0.91225em;"></span><span class="base displaystyle textstyle uncramped"><span class="mop"><span class="op-symbol large-op mop" style="margin-right:0.44445em;top:-0.0011249999999999316em;">∫</span><span class="vlist"><span style="top:0.91225em;margin-left:-0.44445em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">0</span></span></span><span style="top:-0.9739999999999999em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathrm">∞</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">e</span><span class="vlist"><span style="top:-0.41300000000000003em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord">−</span><span class="mord mathit">x</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit">d</span><span class="mord mathit">x</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span></span></p>
+
+
+=== Testing Code Highlighting ===
+<pre class="hljs"><code><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hello, world!&quot;</span>);
+<span class="hljs-keyword">const</span> x = <span class="hljs-number">42</span>;
+</code></pre>
+
+
+=== Testing Mermaid ===
+<div class="mermaid">graph TD
+A[Start] --&gt; B[Process]
+B --&gt; C[End]
+</div>
+
+=== Testing Graphviz ===
+<div class="graphviz" data-dot="digraph G {
+  A -&gt; B;
+  B -&gt; C;
+}
+"></div>
+
+=== Testing GFM Table ===
+<table>
+<thead>
+<tr>
+<th>Column 1</th>
+<th>Column 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cell A</td>
+<td>Cell B</td>
+</tr>
+<tr>
+<td>Cell C</td>
+<td>Cell D</td>
+</tr>
+</tbody>
+</table>
+
+
+=== Testing Task Lists ===
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Completed task</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Pending task</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Another done</li>
+</ul>
+
+
+=== Testing Footnotes ===
+<p>Here is a footnote reference<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>This is the footnote content. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+
+=== Testing Strikethrough ===
+<p><s>This text is crossed out</s></p>
+
+
+=== Testing HTML Blocking (Security) ===
+<p>&lt;script&gt;alert(“XSS”)&lt;/script&gt;</p>
+<p>&lt;img src=x onerror=“alert(‘XSS’)”&gt;</p>
+<p>Normal text</p>
+
