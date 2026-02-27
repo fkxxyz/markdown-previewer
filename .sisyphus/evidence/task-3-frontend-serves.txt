@@ -1,0 +1,19 @@
+$ curl -s http://127.0.0.1:3000/
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown Previewer</title>
+    <script type="module" crossorigin src="/assets/index-ZJLSta63.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+BACKEND SERVING SUCCESSFUL
+- Server running at http://127.0.0.1:3000
+- Frontend HTML served correctly
+- React app entry point loaded

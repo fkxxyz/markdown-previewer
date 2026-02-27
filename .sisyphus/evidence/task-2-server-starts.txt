@@ -1,0 +1,18 @@
+Test: Server startup with default args (127.0.0.1:3000)
+Command: bun backend/server.ts --host 127.0.0.1 --port 3000
+Date: 2026-02-27
+
+Output:
+Server running at http://127.0.0.1:3000
+
+Health Check Response:
+curl -s -w "\nHTTP Status: %{http_code}\n" http://127.0.0.1:3000/health
+
+Result:
+OK
+HTTP Status: 200
+
+Status: PASS ✓
+- Server started successfully
+- Health endpoint responds with 200 OK
+- CORS headers present

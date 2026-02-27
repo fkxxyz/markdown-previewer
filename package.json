@@ -1,0 +1,20 @@
+{
+  "name": "markdown-previewer",
+  "version": "0.1.0",
+  "description": "Local markdown previewer web app",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "bun run build --recursive",
+    "build:frontend": "cd frontend && bun install && bun run build",
+    "start": "bun run start --recursive",
+    "dev": "bun run dev --recursive"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

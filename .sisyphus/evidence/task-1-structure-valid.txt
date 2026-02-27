@@ -1,0 +1,28 @@
+total 68
+drwxr-xr-x  7 fkxxyz fkxxyz  4096 Feb 27 13:01 .
+drwxr-xr-x 16 fkxxyz fkxxyz  4096 Feb 27 12:53 ..
+drwxr-xr-x  6 fkxxyz fkxxyz  4096 Feb 27 12:53 .git
+-rw-r--r--  1 fkxxyz fkxxyz   236 Feb 27 13:00 .gitignore
+drwxr-xr-x  5 fkxxyz fkxxyz  4096 Feb 27 12:59 .sisyphus
+drwxr-xr-x  2 fkxxyz fkxxyz  4096 Feb 27 13:00 backend
+-rw-r--r--  1 fkxxyz fkxxyz 28343 Feb 27 13:01 bun.lock
+drwxr-xr-x  4 fkxxyz fkxxyz  4096 Feb 27 13:01 frontend
+drwxr-xr-x  4 fkxxyz fkxxyz  4096 Feb 27 13:01 node_modules
+-rw-r--r--  1 fkxxyz fkxxyz   398 Feb 27 13:00 package.json
+-rw-r--r--  1 fkxxyz fkxxyz   559 Feb 27 13:00 tsconfig.json
+=== Frontend ===
+total 28
+drwxr-xr-x 4 fkxxyz fkxxyz 4096 Feb 27 13:01 .
+drwxr-xr-x 7 fkxxyz fkxxyz 4096 Feb 27 13:01 ..
+drwxr-xr-x 5 fkxxyz fkxxyz 4096 Feb 27 13:01 node_modules
+-rw-r--r-- 1 fkxxyz fkxxyz  448 Feb 27 13:01 package.json
+drwxr-xr-x 2 fkxxyz fkxxyz 4096 Feb 27 13:01 src
+-rw-r--r-- 1 fkxxyz fkxxyz  223 Feb 27 13:00 tsconfig.json
+-rw-r--r-- 1 fkxxyz fkxxyz  191 Feb 27 13:01 vite.config.ts
+=== Backend ===
+total 20
+drwxr-xr-x 2 fkxxyz fkxxyz 4096 Feb 27 13:00 .
+drwxr-xr-x 7 fkxxyz fkxxyz 4096 Feb 27 13:01 ..
+-rw-r--r-- 1 fkxxyz fkxxyz  186 Feb 27 13:00 package.json
+-rw-r--r-- 1 fkxxyz fkxxyz 1376 Feb 27 13:00 server.ts
+-rw-r--r-- 1 fkxxyz fkxxyz  176 Feb 27 13:00 tsconfig.json

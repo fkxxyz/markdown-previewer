@@ -1,0 +1,9 @@
+{
+  "name": "markdown-previewer-backend",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun backend/server.ts",
+    "dev": "bun --watch backend/server.ts"
+  }
+}

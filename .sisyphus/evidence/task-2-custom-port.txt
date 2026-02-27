@@ -1,0 +1,18 @@
+Test: Server startup with custom port (127.0.0.1:8080)
+Command: bun backend/server.ts --host 127.0.0.1 --port 8080
+Date: 2026-02-27
+
+Output:
+Server running at http://127.0.0.1:8080
+
+Health Check Response:
+curl -s -w "\nHTTP Status: %{http_code}\n" http://127.0.0.1:8080/health
+
+Result:
+OK
+HTTP Status: 200
+
+Status: PASS ✓
+- Server respects custom --port argument
+- Health endpoint responds with 200 OK on custom port
+- CLI argument parsing works correctly
