@@ -73,3 +73,36 @@
 - React app entry point loads correctly
 - CORS headers allow frontend to communicate with backend
 - SPA routing works - all paths serve index.html
+
+## Task 4: Secure File Reading API
+
+### Path Security Validation
+- Use path.normalize() and path.resolve() to prevent path traversal attacks
+- Always resolve symlinks with fs.realpathSync() before extension validation
+- Check file extension on RESOLVED path, not requested path (critical for symlink security)
+- Symlink to /etc/passwd named "bad.md" correctly rejected after resolution
+
+### File System Security Checks
+- Validate file exists with existsSync() before attempting to read
+- Use statSync() to verify path is a file, not a directory
+- Check extension with extname() on the real path after symlink resolution
+- Wrap all file operations in try-catch to prevent server crashes
+
+### API Response Format
+- Return JSON with both resolved path and content: { path, content }
+- Use 404 status for all security violations (non-.md, traversal, non-existent)
+- Include descriptive error messages in JSON: { error: "message" }
+- Always include CORS headers in responses
+
+### Security Test Results
+- Valid .md file: Returns JSON with path and content ✓
+- Non-.md file (/etc/passwd): Rejected with "Only .md files are allowed" ✓
+- Path traversal (../../etc/passwd): Rejected with "File not found" ✓
+- Symlink to .md: Works correctly, returns resolved path ✓
+- Symlink to non-.md: Rejected after symlink resolution ✓
+- Non-existent file: Rejected with "File not found" ✓
+
+### Query Parameter Handling
+- Use url.searchParams.has() to check for query parameter existence
+- Use url.searchParams.get() to retrieve parameter value
+- Validate parameter is not null/empty before processing

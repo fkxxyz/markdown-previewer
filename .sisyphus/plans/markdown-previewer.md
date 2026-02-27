@@ -439,7 +439,7 @@ curl -s "http://127.0.0.1:3000/?path=../../etc/passwd" | grep -q "404"
   **Commit**: NO (groups with Task 1)
 
 - [ ] Security checks pass (path traversal, extension validation)
-- [ ] 4. Backend File Reading with Security Validation
+- [x] 4. Backend File Reading with Security Validation
   **What to do**:
   - Create API endpoint `GET /?path=/path/to/file.md`
   - Parse query parameter `path` from URL

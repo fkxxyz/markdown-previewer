@@ -1,5 +1,5 @@
-import { join } from 'path';
-import { existsSync, readFileSync, statSync } from 'fs';
+import { join, resolve, normalize, extname } from 'path';
+import { existsSync, readFileSync, statSync, realpathSync } from 'fs';
 
 // Parse CLI arguments
 function parseArgs(): { host: string; port: number } {
@@ -90,6 +90,85 @@ const server = Bun.serve({
           ...corsHeaders,
         },
       });
+    }
+
+    // File reading endpoint with security validation
+    if (url.searchParams.has('path')) {
+      const requestedPath = url.searchParams.get('path');
+      if (!requestedPath) {
+        return new Response(JSON.stringify({ error: 'Invalid path parameter' }), {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders,
+          },
+        });
+      }
+
+      try {
+        // Normalize and resolve path to prevent traversal
+        const normalizedPath = normalize(requestedPath);
+        const resolvedPath = resolve(normalizedPath);
+
+        // Check if file exists
+        if (!existsSync(resolvedPath)) {
+          return new Response(JSON.stringify({ error: 'File not found' }), {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders,
+            },
+          });
+        }
+
+        // Resolve symlinks to get real path
+        const realPath = realpathSync(resolvedPath);
+
+        // Check extension on RESOLVED path (after symlink resolution)
+        const ext = extname(realPath);
+        if (ext !== '.md') {
+          return new Response(JSON.stringify({ error: 'Only .md files are allowed' }), {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders,
+            },
+          });
+        }
+
+        // Check if it's a file (not directory)
+        const stat = statSync(realPath);
+        if (!stat.isFile()) {
+          return new Response(JSON.stringify({ error: 'Path is not a file' }), {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders,
+            },
+          });
+        }
+
+        // Read file content
+        const content = readFileSync(realPath, 'utf-8');
+
+        // Return JSON with resolved path and content
+        return new Response(JSON.stringify({ path: realPath, content }), {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders,
+          },
+        });
+      } catch (error) {
+        // Catch any file system errors
+        return new Response(JSON.stringify({ error: 'Failed to read file' }), {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders,
+          },
+        });
+      }
     }
 
     // Serve frontend static files
