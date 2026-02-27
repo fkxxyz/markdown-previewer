@@ -7,6 +7,13 @@ dist/
 build/
 *.tsbuildinfo
 
+# TypeScript compiled outputs (keep hand-written .d.ts like vite-env.d.ts)
+*.js
+*.js.map
+*.d.ts.map
+# Exclude hand-written type declarations
+!vite-env.d.ts
+
 # Environment
 .env
 .env.local
