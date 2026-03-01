@@ -164,7 +164,7 @@ const server = Bun.serve({
         const content = readFileSync(realPath, 'utf-8');
 
         // Render markdown to HTML
-        const htmlContent = renderMarkdown(content);
+        const htmlContent = renderMarkdown(content, realPath);
 
         // Return JSON with resolved path and rendered HTML
         return new Response(JSON.stringify({ path: realPath, basePath: dirname(realPath), content: htmlContent }), {

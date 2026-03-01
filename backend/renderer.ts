@@ -4,6 +4,7 @@ import markdownItFootnote from 'markdown-it-footnote';
 import markdownItTaskLists from 'markdown-it-task-lists';
 import markdownItAnchor from 'markdown-it-anchor';
 import hljs from 'highlight.js';
+import { dirname, resolve, normalize } from 'path';
 
 // Initialize markdown-it with security settings
 const md = new MarkdownIt({
@@ -64,8 +65,15 @@ md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     
     // Check if it's a relative path (not absolute, not URL)
     if (href && !href.startsWith('/') && !href.startsWith('http://') && !href.startsWith('https://') && !href.startsWith('#')) {
-      // Mark as relative path by adding data attribute
-      token.attrPush(['data-relative-path', href]);
+      // Get base path from env (passed during render)
+      const basePath = env.basePath as string | undefined;
+      if (basePath) {
+        // Resolve relative path to absolute path
+        const absolutePath = normalize(resolve(basePath, href));
+        // Convert to query parameter format
+        const newHref = `/?path=${encodeURIComponent(absolutePath)}`;
+        token.attrs![hrefIndex][1] = newHref;
+      }
     }
   }
   
@@ -75,11 +83,16 @@ md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
 /**
  * Render markdown content to HTML
  * @param content - Markdown string to render
+ * @param filePath - Absolute path to the markdown file (for resolving relative links)
  * @returns Rendered HTML string
  */
-export function renderMarkdown(content: string): string {
+export function renderMarkdown(content: string, filePath?: string): string {
   try {
-    return md.render(content);
+    const env: any = {};
+    if (filePath) {
+      env.basePath = dirname(filePath);
+    }
+    return md.render(content, env);
   } catch (err) {
     console.error('Markdown rendering error:', err);
     return `<div class="error">Failed to render markdown: ${err instanceof Error ? err.message : 'Unknown error'}</div>`;
