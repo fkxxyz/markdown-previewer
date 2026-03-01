@@ -19,6 +19,20 @@ export function MarkdownViewer() {
   const [htmlContent, setHtmlContent] = useState<string>('')
 
   useEffect(() => {
+    // Detect system theme preference
+    const updateTheme = () => {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
+    }
+
+    // Initial theme detection
+    updateTheme()
+
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = () => updateTheme()
+    mediaQuery.addEventListener('change', handleChange)
+
     // Load external CSS for KaTeX and highlight.js
     const katexLink = document.createElement('link')
     katexLink.rel = 'stylesheet'
@@ -30,12 +44,20 @@ export function MarkdownViewer() {
     highlightLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'
     document.head.appendChild(highlightLink)
 
+    const highlightDarkLink = document.createElement('link')
+    highlightDarkLink.rel = 'stylesheet'
+    highlightDarkLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'
+    highlightDarkLink.media = '(prefers-color-scheme: dark)'
+    document.head.appendChild(highlightDarkLink)
+
     // Initialize Mermaid
     mermaid.initialize({ startOnLoad: true })
 
     return () => {
+      mediaQuery.removeEventListener('change', handleChange)
       document.head.removeChild(katexLink)
       document.head.removeChild(highlightLink)
+      document.head.removeChild(highlightDarkLink)
     }
   }, [])
 
@@ -108,7 +130,7 @@ export function MarkdownViewer() {
         padding: '40px', 
         textAlign: 'center',
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        color: '#666'
+        color: 'var(--text-secondary)'
       }}>
         Loading...
       </div>
@@ -122,11 +144,11 @@ export function MarkdownViewer() {
         fontFamily: 'system-ui, -apple-system, sans-serif'
       }}>
         <div style={{
-          backgroundColor: '#fee',
-          border: '1px solid #fcc',
+          backgroundColor: 'var(--error-bg)',
+          border: '1px solid var(--error-border)',
           borderRadius: '4px',
           padding: '16px',
-          color: '#c33'
+          color: 'var(--error-text)'
         }}>
           <strong>Error:</strong> {error}
         </div>
@@ -140,12 +162,12 @@ export function MarkdownViewer() {
     }}>
       {/* File path display */}
       <div style={{
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'var(--bg-tertiary)',
         padding: '12px 20px',
         fontFamily: 'Monaco, Consolas, monospace',
         fontSize: '14px',
-        color: '#555',
-        borderBottom: '1px solid #ddd'
+        color: 'var(--text-tertiary)',
+        borderBottom: '1px solid var(--border-secondary)'
       }}>
         {filePath}
       </div>

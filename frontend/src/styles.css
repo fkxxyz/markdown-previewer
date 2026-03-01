@@ -1,4 +1,45 @@
+/* Global styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 /* GitHub-style Markdown Rendering */
+
+/* CSS Variables for theming */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-tertiary: #f5f5f5;
+  --text-primary: #24292f;
+  --text-secondary: #57606a;
+  --text-tertiary: #555;
+  --border-primary: #d0d7de;
+  --border-secondary: #ddd;
+  --code-bg: rgba(175, 184, 193, 0.2);
+  --link-color: #0969da;
+  --error-bg: #fee;
+  --error-border: #fcc;
+  --error-text: #c33;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #1c2128;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-tertiary: #aaa;
+  --border-primary: #30363d;
+  --border-secondary: #21262d;
+  --code-bg: rgba(110, 118, 129, 0.4);
+  --link-color: #58a6ff;
+  --error-bg: #3d1f1f;
+  --error-border: #6e2c2c;
+  --error-text: #f85149;
+}
 
 /* Container */
 .markdown-body {
@@ -8,8 +49,8 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: #24292f;
-  background-color: #ffffff;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
 }
 
 /* Headings */
@@ -28,13 +69,13 @@
 .markdown-body h1 {
   font-size: 2em;
   padding-bottom: 0.3em;
-  border-bottom: 1px solid #d0d7de;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .markdown-body h2 {
   font-size: 1.5em;
   padding-bottom: 0.3em;
-  border-bottom: 1px solid #d0d7de;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .markdown-body h3 {
@@ -51,7 +92,7 @@
 
 .markdown-body h6 {
   font-size: 0.85em;
-  color: #57606a;
+  color: var(--text-secondary);
 }
 
 /* Paragraphs */
@@ -94,8 +135,8 @@
 .markdown-body blockquote {
   margin: 0 0 16px 0;
   padding: 0 1em;
-  color: #57606a;
-  border-left: 0.25em solid #d0d7de;
+  color: var(--text-secondary);
+  border-left: 0.25em solid var(--border-primary);
 }
 
 .markdown-body blockquote > :first-child {
@@ -111,7 +152,7 @@
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
-  background-color: rgba(175, 184, 193, 0.2);
+  background-color: var(--code-bg);
   border-radius: 6px;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
@@ -123,7 +164,7 @@
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #f6f8fa;
+  background-color: var(--bg-secondary);
   border-radius: 6px;
 }
 
@@ -152,21 +193,22 @@
 .markdown-body table th,
 .markdown-body table td {
   padding: 6px 13px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--border-primary);
 }
 
 .markdown-body table th {
   font-weight: 600;
-  background-color: #f6f8fa;
+  background-color: var(--bg-secondary);
 }
 
 .markdown-body table tr {
-  background-color: #ffffff;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-primary);
   border-top: 1px solid #d0d7de;
 }
 
 .markdown-body table tr:nth-child(2n) {
-  background-color: #f6f8fa;
+  background-color: var(--bg-secondary);
 }
 
 /* Horizontal Rule */
@@ -174,13 +216,13 @@
   height: 0.25em;
   padding: 0;
   margin: 24px 0;
-  background-color: #d0d7de;
+  background-color: var(--border-primary);
   border: 0;
 }
 
 /* Links */
 .markdown-body a {
-  color: #0969da;
+  color: var(--link-color);
   text-decoration: none;
 }
 
@@ -192,7 +234,7 @@
 .markdown-body img {
   max-width: 100%;
   box-sizing: content-box;
-  background-color: #ffffff;
+  background-color: var(--bg-primary);
 }
 
 /* KaTeX Math Formulas */
@@ -235,7 +277,9 @@
 .markdown-body .footnotes {
   margin-top: 32px;
   padding-top: 16px;
-  border-top: 1px solid #d0d7de;
+  border-top: 1px solid var(--border-primary);
+  font-size: 0.875em;
+  color: var(--text-secondary);
   font-size: 0.875em;
   color: #57606a;
 }
