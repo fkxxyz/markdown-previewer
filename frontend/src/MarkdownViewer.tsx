@@ -5,6 +5,7 @@ import './styles.css'
 
 interface ApiResponse {
   path: string
+  basePath: string
   content: string
 }
 
@@ -16,6 +17,7 @@ export function MarkdownViewer() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filePath, setFilePath] = useState<string | null>(null)
+  const [basePath, setBasePath] = useState<string | null>(null)
   const [htmlContent, setHtmlContent] = useState<string>('')
 
   useEffect(() => {
@@ -91,6 +93,7 @@ export function MarkdownViewer() {
 
         const data: ApiResponse = await response.json()
         setFilePath(data.path)
+        setBasePath(data.basePath)
         setHtmlContent(data.content)
         setLoading(false)
 
@@ -123,6 +126,30 @@ export function MarkdownViewer() {
 
     fetchMarkdown()
   }, [])
+
+  // Handle relative path link clicks
+  useEffect(() => {
+    if (!basePath) return;
+
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+      
+      if (link && link.hasAttribute('data-relative-path')) {
+        e.preventDefault();
+        const relativePath = link.getAttribute('data-relative-path');
+        if (relativePath) {
+          // Resolve relative path based on current file's directory
+          const newPath = `${basePath}/${relativePath}`;
+          // Navigate to new path
+          window.location.href = `${window.location.pathname}?path=${encodeURIComponent(newPath)}`;
+        }
+      }
+    };
+
+    document.addEventListener('click', handleLinkClick);
+    return () => document.removeEventListener('click', handleLinkClick);
+  }, [basePath]);
 
   if (loading) {
     return (

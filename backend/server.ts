@@ -1,4 +1,4 @@
-import { join, resolve, normalize, extname } from 'path';
+import { join, resolve, normalize, extname, dirname } from 'path';
 import { existsSync, readFileSync, statSync, realpathSync } from 'fs';
 import { renderMarkdown } from './renderer';
 
@@ -167,7 +167,7 @@ const server = Bun.serve({
         const htmlContent = renderMarkdown(content);
 
         // Return JSON with resolved path and rendered HTML
-        return new Response(JSON.stringify({ path: realPath, content: htmlContent }), {
+        return new Response(JSON.stringify({ path: realPath, basePath: dirname(realPath), content: htmlContent }), {
           status: 200,
           headers: {
             'Content-Type': 'application/json',
