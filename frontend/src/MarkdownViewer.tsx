@@ -140,7 +140,10 @@ export function MarkdownViewer() {
         const relativePath = link.getAttribute('data-relative-path');
         if (relativePath) {
           // Resolve relative path based on current file's directory
-          const newPath = `${basePath}/${relativePath}`;
+          // Use URL API to properly resolve relative paths (handles ./ and ../)
+          const baseUrl = `file://${basePath}/`;
+          const resolvedUrl = new URL(relativePath, baseUrl);
+          const newPath = resolvedUrl.pathname;
           // Navigate to new path
           window.location.href = `${window.location.pathname}?path=${encodeURIComponent(newPath)}`;
         }
